@@ -32,7 +32,7 @@ namespace WebApi.Controllers
             {
                 var alumns = await _alumnService.GetAllAlumnsAsync();
 
-                if (alumns != null)
+                if (alumns.Count() > 0)
                 {
                     res.Success = 1;
                     res.Message = "Consulta realizada con éxito";
@@ -96,21 +96,19 @@ namespace WebApi.Controllers
                 if (alumn != null)
                 {
                     res.Success = 1;
-                    res.Message = "Actualización realizada con éxito";
+                    res.Message = "El alumno se agregó con éxito";
                     res.Data = alumn;
 
                     return Ok(res);
                 }
-
-                res.Message = "No se encontró ningún registro";
-                return NotFound(res);
             }
             catch (Exception ex)
             {
                 res.Message = $"{ex.Message}. {ex.InnerException.Message}";
                 res.Data = ex.InnerException.Message.ToString();
-                return BadRequest(res);
             }
+            
+            return BadRequest(res);
         }
 
         [HttpPut]
@@ -131,16 +129,14 @@ namespace WebApi.Controllers
 
                     return Ok(res);
                 }
-
-                res.Message = "No se encontró ningún registro";
-                return NotFound(res);
             }
             catch (Exception ex)
             {
                 res.Message = $"{ex.Message}. {ex.InnerException.Message}";
                 res.Data = ex.InnerException.Message.ToString();
-                return BadRequest(res);
             }
+            
+            return BadRequest(res);
         }
 
         [HttpDelete("{id}")]

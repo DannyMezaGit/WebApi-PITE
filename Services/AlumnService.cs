@@ -71,7 +71,7 @@ namespace WebApi.Services
             try
             {
 
-                var alumn = await _dbContext.Alumns.Where(x => x.AlumnId == alumnUpdated.AlumnId).FirstOrDefaultAsync();
+                var alumn = await _dbContext.Alumns.Where(x => x.AlumnId == alumnUpdated.AlumnId).AsNoTracking().FirstOrDefaultAsync();
                     alumn = _mapper.Map<Alumn>(alumnUpdated);
                 
                 _dbContext.Entry(alumn).State = EntityState.Modified;

@@ -33,13 +33,14 @@ namespace WebApi
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IAlumnService, AlumnService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi", Version = "v1" });
             });
-
-            services.AddScoped<IAlumnService, AlumnService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
