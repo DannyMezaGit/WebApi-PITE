@@ -19,6 +19,7 @@ namespace WebApi
 {
     public class Startup
     {
+        readonly string MiCors = "MiCors";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,7 +30,13 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors(options => {
+                options.AddPolicy(name: MiCors, builder => {
+                    builder.WithMethods("*");
+                    builder.WithHeaders("*");
+                    builder.WithOrigins("*");
+                });
+            });
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -56,6 +63,8 @@ namespace WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MiCors);
 
             app.UseAuthorization();
 
